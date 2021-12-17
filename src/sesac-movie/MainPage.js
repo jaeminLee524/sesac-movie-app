@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { API_URL, API_KEY, IMAGE_URL } from './api';
 import MainImage from './MainImage';
 import GridCards from './GridCards';
-import axios from 'axios';
 import styled from 'styled-components';
 import Header from './Header';
 
@@ -14,7 +13,6 @@ const MainPageBlock = styled.div`
 const MovieCardBlock = styled.div`
     width: 90%;
     margin: 1rem auto;
-
     .genre {
         color: white;
     }
@@ -54,37 +52,18 @@ const Button = styled.button`
 
 function MainPage() {
     const [movies, setMovies] = useState([]);
+    const [moviesCopy, setMoviesCopy] = useState(movies.concat());
+    const [filterFlags, setFilterFlags] = useState(
+        //home, popular, latest, genre
+        [true, false, false, false]
+    );
     // mainMovieImage : 0번째 인덱스의 배열
     const [mainMovieImage, setMainMovieImage] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [page, setPage] = useState(0);
-    const [moviesObj, setMoviesObj] = useState('');
 
     // 최초 브라우저 redering되었을 때 실행
-    // useEffect(() => {
-    //     const fetchMovies = async () => {
-    //         try {
-    //             setError(null);
-    //             setMovies(null);
-    //             setLoading(true);
-    //             const response = await axios.get(
-    //                 `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`
-    //             );
-    //             console.log(response.data);
-    //             setMovies(response.data);
-    //         } catch (e) {
-    //             //asxios 요청 후 오류 발생 시 catch
-    //             setError(e);
-    //         }
-    //         setLoading(false);
-    //     };
-    //     fetchMovies();
-    // }, []);
-
-    // if (loading) return <div>로딩중...</div>;
-    // if (error) return <div>에러 발생</div>;
-
     useEffect(() => {
         const response = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
         movieCall(response);
@@ -99,15 +78,18 @@ function MainPage() {
                 setMainMovieImage(mainMovieImage || response.results[0]);
                 // 기존 배열 얕은 복사 후 movies에 세팅
                 setMovies([...movies, ...response.results]);
-                setMoviesObj([...moviesObj, ...response.results]);
                 // 페이지 셋팅
                 setPage(response.page);
-                console.log('moviesObj' + moviesObj);
-                // console.log(
-                //     'movies: ' + movies.forEach(map => console.log(map))
-                // );
             });
     };
+    useEffect(() => {
+        setMoviesCopy(movies.concat());
+        filterFlags.forEach((f, i) => {
+            if (f) {
+                filter(i);
+            }
+        });
+    }, [movies]);
 
     const onClick = () => {
         // 페이지 1추가하여 api 쿼리 생성
@@ -119,9 +101,44 @@ function MainPage() {
         movieCall(response);
     };
 
+    const filter = useCallback(id => {
+        const nextMovies = moviesCopy.concat();
+        if (id === '0') {
+            //home
+            reset();
+        } else if (id === '1') {
+            //popular
+            setMoviesCopy(
+                nextMovies.sort((a, b) =>
+                    a.popularity > b.popularity ? -1 : 1
+                )
+            );
+        } else if (id === '2') {
+            //new=
+            setMoviesCopy(
+                nextMovies.sort((a, b) =>
+                    new Date(a.release_date) > new Date(b.release_date) ? -1 : 1
+                )
+            );
+        } else if (id === '3') {
+            //genre
+        }
+    });
+
+    const reset = () => {
+        setMoviesCopy(movies.concat());
+    };
+
     return (
         <MainPageBlock>
-            {movies && <Header movieCall={movieCall} movies={movies} />}
+            <Header
+                setFilterFlags={setFilterFlags}
+                filter={filter}
+                movies={movies}
+                moviesCopy={moviesCopy}
+                setMoviesCopy={setMoviesCopy}
+                reset={reset}
+            />
             {/* Main Image */}
             {/* image는 url을 갖고있음 */}
             {mainMovieImage && (
@@ -135,9 +152,10 @@ function MainPage() {
                 {/* 추후 여기에 장르를 넣기 */}
                 <h2 className="genre">최신 영화 입니다</h2>
                 {/* Movie Grid Cards */}
+                {/* <Row gutter={[16, 16]}> */}
                 <MovieCardBody>
-                    {movies &&
-                        movies.map((movie, index) => (
+                    {moviesCopy &&
+                        moviesCopy.map((movie, index) => (
                             <div key={index}>
                                 <GridCards
                                     posterpath={
@@ -151,6 +169,7 @@ function MainPage() {
                             </div>
                         ))}
                 </MovieCardBody>
+                {/* </Row> */}
             </MovieCardBlock>
             {/* TODO : 버튼 위치 조정 */}
             <ButtonBlock>

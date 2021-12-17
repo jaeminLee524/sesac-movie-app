@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { API_KEY } from './api';
+import Search from '../Search';
 const HeaderBlock = styled.div`
     z-index: 2;
     width: 100%;
@@ -28,65 +28,45 @@ const H2 = styled.h2`
 `;
 
 // 부모로부터 moveCall 함수를 받음
-function Header({ movieCall, movies }) {
-    // filter된 영화들만 담을 state
-    const [filter, setFilter] = useState([]);
-    const [movies2] = movies;
+function Header({ setFilterFlags, filter, movies, setMoviesCopy, reset }) {
+    const handleClick = e => {
+        const id = e.target.id;
+        console.log(id);
+        const newFilter = new Array(4);
+        newFilter.fill(false);
 
-    console.log('Header: ' + movies.forEach(map => map));
+        newFilter[id] = true;
 
-    const FilterMovies = movies => {
-        // movies.forEach(map => console.log('FilterMovies ' + map));
+        setFilterFlags(newFilter);
+        filter(id);
     };
 
-    let response = '';
+    useEffect(() => {});
     return (
         <HeaderBlock>
             <H2>
-                <a
-                    onClick={() => {
-                        response = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-                        movieCall(response);
-                    }}
-                >
+                <a id="0" onClick={handleClick}>
                     홈
                 </a>
             </H2>
             <H2>
-                <a
-                    onClick={() => {
-                        response = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-                        movieCall(response);
-                    }}
-                >
+                <a id="1" onClick={handleClick}>
                     인기
                 </a>
             </H2>
             <H2>
-                <a
-                    // onClick={() => {
-                    //     response = `https://api.themoviedb.org/3/movie/latest/list?api_key=${API_KEY}&language=en-US&page=1`;
-                    //     movieCall(response);
-                    // }}
-                    onClick={() => FilterMovies(movies2)}
-                >
+                <a id="2" onClick={handleClick}>
                     최신
                 </a>
             </H2>
             <H2>
-                <a
-                    onClick={() => {
-                        response = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US&page=1`;
-                        movieCall(response);
-                    }}
-                >
-                    장르
-                </a>
+                <a id="3">장르</a>
             </H2>
-            <form>
-                <input type="text" />
-                <button>검색</button>
-            </form>
+            <Search
+                movies={movies}
+                setMoviesCopy={setMoviesCopy}
+                reset={reset}
+            />
         </HeaderBlock>
     );
 }
