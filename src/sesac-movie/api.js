@@ -1,4 +1,3 @@
-
 //TMDB api 시작
 export const API_URL = 'https://api.themoviedb.org/3/';
 export const API_KEY = 
