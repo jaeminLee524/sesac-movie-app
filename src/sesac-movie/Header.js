@@ -28,10 +28,21 @@ const H2 = styled.h2`
 `;
 
 // 부모로부터 moveCall 함수를 받음
-function Header({ setFilterFlags, filter, movies, setMoviesCopy, reset }) {
+function Header({
+    setNumber,
+    nameChange,
+    setFilterFlags,
+    filter,
+    movies,
+    setMoviesCopy,
+    reset,
+}) {
     const handleClick = e => {
         const id = e.target.id;
-        console.log(id);
+        // 문구 변경을 위한 flag
+        setNumber(id);
+        nameChange(id);
+
         const newFilter = new Array(4);
         newFilter.fill(false);
 
@@ -39,6 +50,9 @@ function Header({ setFilterFlags, filter, movies, setMoviesCopy, reset }) {
 
         setFilterFlags(newFilter);
         filter(id);
+
+        // 스크린의 가장 위로
+        window.scrollTo(0, 0);
     };
 
     useEffect(() => {});
