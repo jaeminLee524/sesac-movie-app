@@ -17,7 +17,6 @@ window.onbeforeunload = function () {
 function App() {
     return (
         <>
-            window.onbeforeunload();
             <GlobalStyle />
             <MainPage />
             {/* <Route exaact path="" component={} /> */}
