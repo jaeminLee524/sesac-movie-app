@@ -17,6 +17,7 @@ import styled, { css } from 'styled-components';
 const ContentBlock = styled.div`
     position: absolute;
     max-width: 500px;
+    /* 하단 기준  */
     bottom: 2rem;
     margin-left: 2rem;
 `;
