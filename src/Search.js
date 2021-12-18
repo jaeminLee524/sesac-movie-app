@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const SearchBox = styled.div`
     padding: 10px;
-    position: absolute;
-    left: 100%;
-    transform: translate(-100%, 0%);
+    /* position: absolute; */
+    /* left: 100%; */
+    /* transform: translate(-100%, 0%); */
     background-color: rgba(0, 0, 0, 0.2);
     border: 1px solid rgb(250, 250, 250);
     border-radius: 30px;

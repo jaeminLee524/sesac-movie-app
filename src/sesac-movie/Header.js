@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Search from '../Search';
+
 const HeaderBlock = styled.div`
+    margin: 0 auto;
     z-index: 2;
     width: 100%;
     height: 60px;
     display: flex;
     position: fixed;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     backdrop-filter: blur(0px);
     background-color: rgb(21, 21, 21, 0.55);
@@ -17,14 +19,21 @@ const HeaderBlock = styled.div`
     color: rgb(250, 250, 250);
 `;
 
-const H2 = styled.h2`
-    box-sizing: border-box;
-    color: rgb(230, 230, 230);
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: 500;
-    padding: 0px 10xp;
-    text-align: center;
+const NavBlock = styled.ul`
+    display: flex;
+    list-style: none;
+
+    li {
+        display: inline-block;
+        margin: 0px 50px;
+        /* padding: 0px 25px; */
+        box-sizing: border-box;
+        color: rgb(230, 230, 230);
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 500;
+        text-align: center;
+    }
 `;
 
 // 부모로부터 moveCall 함수를 받음
@@ -58,24 +67,20 @@ function Header({
     useEffect(() => {});
     return (
         <HeaderBlock>
-            <H2>
-                <a id="0" onClick={handleClick}>
+            <NavBlock>
+                <li id="0" onClick={handleClick}>
                     홈
-                </a>
-            </H2>
-            <H2>
-                <a id="1" onClick={handleClick}>
+                </li>
+                <li id="1" onClick={handleClick}>
                     인기
-                </a>
-            </H2>
-            <H2>
-                <a id="2" onClick={handleClick}>
+                </li>
+                <li id="2" onClick={handleClick}>
                     최신
-                </a>
-            </H2>
-            <H2>
-                <a id="3">장르</a>
-            </H2>
+                </li>
+                <li id="3" onClick={handleClick}>
+                    장르
+                </li>
+            </NavBlock>
             <Search
                 movies={movies}
                 setMoviesCopy={setMoviesCopy}
