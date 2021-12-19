@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Search from '../Search';
+import Search from './Search';
 
 const HeaderBlock = styled.div`
     margin: 0 auto;

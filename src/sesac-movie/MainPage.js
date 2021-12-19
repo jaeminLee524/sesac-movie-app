@@ -4,6 +4,7 @@ import MainImage from './MainImage';
 import GridCards from './GridCards';
 import styled from 'styled-components';
 import Header from './Header';
+import Modal from './Modal';
 
 const MainPageBlock = styled.div`
     width: 100%;
@@ -12,8 +13,9 @@ const MainPageBlock = styled.div`
 
 const MovieCardBlock = styled.div`
     width: 90%;
+    /* height: ; */
     margin: 1rem auto;
-    .genre {
+    .text {
         color: white;
     }
 `;
@@ -53,14 +55,9 @@ const Button = styled.button`
 function MainPage() {
     const [movies, setMovies] = useState([]);
     const [moviesCopy, setMoviesCopy] = useState(movies.concat());
-    const [filterFlags, setFilterFlags] = useState(
-        //home, popular, latest, genre
-        [true, false, false, false]
-    );
+    const [filterFlags, setFilterFlags] = useState([true, false, false, false]);
     // mainMovieImage : 0번째 인덱스의 배열
     const [mainMovieImage, setMainMovieImage] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const [page, setPage] = useState(0);
     const [number, setNumber] = useState(0);
     const name = ['인기', '인기', '최신', '장르'];
@@ -131,6 +128,7 @@ function MainPage() {
         setMoviesCopy(movies.concat());
     };
 
+    // header 컨텐츠 클릭에 따른 id value setting
     const nameChange = number => {
         setNumber(number);
     };
@@ -157,27 +155,28 @@ function MainPage() {
                 />
             )}
             <MovieCardBlock>
-                {/* 추후 여기에 장르를 넣기 */}
-                <h2 className="genre">{`${name[number]}영화`}</h2>
+                <h2 className="text">{`${name[number]}영화`}</h2>
                 {/* Movie Grid Cards */}
-                {/* <Row gutter={[16, 16]}> */}
                 <MovieCardBody>
                     {moviesCopy &&
                         moviesCopy.map((movie, index) => (
                             <div key={index}>
                                 <GridCards
-                                    posterpath={
+                                    posterPath={
                                         movie.poster_path
                                             ? `${IMAGE_URL}w500${movie.poster_path}`
                                             : null
                                     }
                                     id={movie.id}
-                                    originaltitle={movie.original_title}
+                                    originalTitle={movie.original_title}
+                                    movie={movie}
+                                    // overview={movie.overview}
+                                    // releaseDate={movie.release_date}
+                                    // voteAverage={movie.vote_average}
                                 />
                             </div>
                         ))}
                 </MovieCardBody>
-                {/* </Row> */}
             </MovieCardBlock>
             {/* TODO : 버튼 위치 조정 */}
             <ButtonBlock>
