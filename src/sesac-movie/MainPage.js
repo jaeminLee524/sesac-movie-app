@@ -181,6 +181,7 @@ function MainPage() {
     return (
         <MainPageBlock>
             <Header
+                containerRef={containerRef}
                 nameChange={nameChange}
                 filterFlags={filterFlags}
                 setFilterFlags={setFilterFlags}

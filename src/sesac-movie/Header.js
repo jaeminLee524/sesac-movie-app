@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Search from './Search';
 
@@ -71,6 +71,7 @@ const DropDownContent = styled.div`
 `;
 
 function Header({
+    containerRef,
     nameChange,
     setFilterFlags,
     filter,
@@ -78,6 +79,11 @@ function Header({
     setMoviesCopy,
     reset,
 }) {
+    // GridCards 위치(위) 이동 함수
+    const goUp = () => {
+        containerRef.current.scrollTo(0, 0);
+    };
+
     const handleClick = e => {
         const id = e.target.id;
 
@@ -96,6 +102,9 @@ function Header({
 
         // 스크린의 가장 위로
         window.scrollTo(0, 0);
+
+        // GridCards 위치 위로
+        goUp();
     };
 
     const handleDropDownClick = e => {
@@ -104,6 +113,9 @@ function Header({
 
         // 스크린의 가장 위로
         window.scrollTo(0, 0);
+
+        // GridCards 위치 위로
+        goUp();
 
         // text flag 역할
         switch (id) {
