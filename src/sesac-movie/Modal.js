@@ -1,61 +1,52 @@
-import React from 'react';
-import styled from 'styled-components';
-import { IMAGE_URL } from './api';
+// import { IoClose } from "react-icons/io5";
+import './Modal.scss';
+import Icons from './Icons';
 
-const ModalContainerBlock = styled.div`
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 10;
-    position: fixed;
-    top: 0;
-    left: 0;
-`;
-
-const ModalBlock = styled.div`
-    width: 500px;
-    height: 500px;
-    background-color: #fff;
-    // Modal 창 가운데 위치
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100%;
-`;
-
-const ModalButton = styled.button`
-    position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-`;
-
-function Modal({ modalClose, movie }) {
-    const imgSrc = `${IMAGE_URL}w200${movie.poster_path}`;
-    console.log(imgSrc);
-    const onCloseModal = e => {
-        console.log(`e.target: ${e.target}`);
-        console.log(`e.currentTarget: ${e.currentTarget}`);
-        if (e.target === e.currentTarget) {
-            modalClose();
-        }
-    };
-
+import { AiFillStar } from 'react-icons/ai';
+export default function Modal({ movie, modalPosterImg, handleModal }) {
     return (
-        <ModalContainerBlock onClick={onCloseModal}>
-            <ModalBlock>
-                <div>
-                    <img src={imgSrc} alt={movie.original_title} />
+        //화면 blur 처리할 overlay
+        <div className="modal_overlay" id="modal">
+            {/* 실제 modal창 */}
+            <div
+                className="modal_window"
+                id={movie.key}
+                onClick={e => e.stopPropagation()}
+            >
+                {/* closeBtn*/}
+                <button
+                    className="close_btn"
+                    id="closeBtn"
+                    onClick={handleModal}
+                >
+                    X
+                </button>
+                {/* 영화 포스터 */}
+                <img className="poster_img" src={modalPosterImg}></img>
+                {/* 영화 title*/}
+                <div className="title" id={movie.id}>
+                    <h3>{movie.original_title}</h3>
                 </div>
-                <span>제목: {movie.original_title}</span>
-                {/* <p>줄거리: {movie.overview}</p> */}
-                <p>개봉일: {movie.release_date}</p>
-                <p>평점: {movie.vote_average}</p>
-                {/* <ModalButton onClick={modalClose}>ModalClose</ModalButton> */}
-            </ModalBlock>
-        </ModalContainerBlock>
+                <div className="movieInfo">
+                    {/* 영화 summary*/}
+                    <div className="content">
+                        <span className="summary">{movie.overview}</span>
+                    </div>
+                </div>
+                <dl className="summaryInfo">
+                    {/* <dt>Genre</dt>
+          <dd>{movie.genre}</dd> */}
+                    <dt>ReleaseDate</dt>
+                    <dd>{movie.release_date}</dd>
+                    <dt>Rating</dt>
+                    <dd>
+                        <AiFillStar className="star" />
+                        {movie.vote_average}
+                    </dd>
+                </dl>
+                {/* icons*/}
+                <Icons />
+            </div>
+        </div>
     );
 }
-
-export default Modal;

@@ -1,34 +1,17 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import Modal from './Modal';
 
-const MovieCardImg = styled.div`
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-`;
-
-function GridCards({ posterPath, id, originalTitle, movie }) {
-    // modal Flag
-    const [open, setOpen] = useState(false);
-
-    // modal control function
-    const modalClose = () => {
-        setOpen(!open);
+function GridCards({ posterPath, movie, modalPosterPath }) {
+    //modal on/off
+    const [openModal, setOpenModal] = useState(false);
+    const handleModal = () => {
+        setOpenModal(!openModal);
     };
 
     return (
         <div>
-            {/* a태그에서 div태그로 변경 새로고침 발생으로 modal창이 꺼짐 */}
-            <div
-                className="id"
-                // href={`/movie/${id}`}
-                // href="/"
-                onClick={() => modalClose()}
-                style={{ cursor: 'pointer' }}
-            >
-                {open && <Modal modalClose={modalClose} movie={movie} />}
-
+            {/* a tag -> div tag */}
+            <div className="id" onClick={handleModal}>
                 <img
                     className="image"
                     style={{
@@ -36,8 +19,15 @@ function GridCards({ posterPath, id, originalTitle, movie }) {
                         height: '320px',
                     }}
                     src={posterPath}
-                    alt={originalTitle}
+                    alt={movie.original_title}
                 />
+                {openModal && (
+                    <Modal
+                        movie={movie}
+                        modalPosterImg={modalPosterPath}
+                        handleModal={handleModal}
+                    />
+                )}
             </div>
         </div>
     );

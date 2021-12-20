@@ -1,23 +1,9 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-
-// const MainimageBlock = styled.div`
-//     position: relative;
-//     width: 100%;
-//     height: 500px;
-//     background-size: 100% cover;
-//     background-position: center center;
-//     ${props =>
-//         props.image &&
-//         css`
-//             background: url(props.image) #1c1c1c;
-//         `}
-// `;
+import styled from 'styled-components';
 
 const ContentBlock = styled.div`
     position: absolute;
     max-width: 500px;
-    /* 하단 기준  */
     bottom: 2rem;
     margin-left: 2rem;
 `;

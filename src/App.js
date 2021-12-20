@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import MainPage from './sesac-movie/MainPage';
-import { Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -17,9 +17,11 @@ window.onbeforeunload = function () {
 function App() {
     return (
         <>
-            <GlobalStyle />
+            {/* <Router> */}
+            {/* <Route path="/" component={MainPage} exact /> */}
             <MainPage />
-            {/* <Route exaact path="" component={} /> */}
+            <GlobalStyle />
+            {/* </Router> */}
         </>
     );
 }

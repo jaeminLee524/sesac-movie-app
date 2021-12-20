@@ -1,0 +1,27 @@
+.topBtn {
+  position: fixed;
+  opacity: 0;
+  bottom: 40px;
+  right: 40px;
+  z-index: -10;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in;
+}
+.topBtn.active {
+  border: none;
+  z-index: 10;
+  opacity: 1;
+}
+
+.topBtn:hover,
+.topBtn:focus,
+.topBtn:active {
+  outline: 0 none;
+}
