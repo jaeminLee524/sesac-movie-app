@@ -3,7 +3,7 @@ import './Modal.scss';
 import Icons from './Icons';
 
 import { AiFillStar } from 'react-icons/ai';
-export default function Modal({ movie, modalPosterImg, handleModal }) {
+export default function Modal({ movie, modalPosterImg, actors, handleModal }) {
     return (
         //화면 blur 처리할 overlay
         <div className="modal_overlay" id="modal">
@@ -36,6 +36,8 @@ export default function Modal({ movie, modalPosterImg, handleModal }) {
                 <dl className="summaryInfo">
                     {/* <dt>Genre</dt>
           <dd>{movie.genre}</dd> */}
+                    <dt>Actors</dt>
+                    <dd>{actors}</dd>
                     <dt>ReleaseDate</dt>
                     <dd>{movie.release_date}</dd>
                     <dt>Rating</dt>
